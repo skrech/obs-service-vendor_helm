@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service name="vendor_helm">
+    <summary>OBS Source Service to vendor Helm charts</summary>
+    <description><![CDATA[This service updates the chart dependencies
+    and then archives the resulting chart into a contents.tar, while
+    filtering the paths according to a glob pattern. This enables
+    fully offline builds of Helm charts.]]>
+    </description>
+    <parameter name="subdir">
+      <description>Sub-directory where Chart.yaml is located</description>
+    </parameter>
+    <parameter name="include">
+      <description>Glob pattern of paths to include into the final archive.</description>
+    </parameter>
+</service>
