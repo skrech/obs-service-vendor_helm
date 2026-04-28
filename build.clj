@@ -28,10 +28,9 @@
          :src-dirs ["src"]
          :ns-compile [main]))
 
-(defn ci
+(defn uberjar
   "Run the CI pipeline of tests (and build the uberjar)."
   [opts]
-  (test opts)
   (b/delete {:path "target"})
   (let [opts (uber-opts opts)]
     (println "\nCopying source...")
@@ -39,5 +38,11 @@
     (println (str "\nCompiling " main "..."))
     (b/compile-clj opts)
     (println "\nBuilding JAR..." (:uber-file opts))
-    (b/uber opts))
+    (b/uber opts)))
+
+(defn ci
+  "Run the CI pipeline of tests (and build the uberjar)."
+  [opts]
+  (test opts)
+  (uberjar opts)
   opts)

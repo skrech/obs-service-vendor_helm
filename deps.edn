@@ -8,8 +8,13 @@
   :run-x {:ns-default suse.obs.vendor-helm
           :exec-fn greet
           :exec-args {:name "Clojure"}}
-  :build {:deps {io.github.clojure/tools.build
-                 {:mvn/version "0.10.12"}}
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.12"}
+                 ;; Explicit Clojure version -- fully specifying the
+                 ;; required libraries which removes reliance on root
+                 ;; deps.end. Especially helpful for vendoring
+                 ;; dependencies in environments not having internet
+                 ;; connection.
+                 org.clojure/clojure {:mvn/version "1.12.4"}}
           :ns-default build}
   :test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.3"}
