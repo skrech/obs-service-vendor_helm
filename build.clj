@@ -3,7 +3,7 @@
   (:require [clojure.tools.build.api :as b]))
 
 (def lib 'suse.obs/vendor_helm)
-(def version "0.1.2")
+(def version "0.1.4")
 (def main 'suse.obs.vendor-helm)
 (def class-dir "target/classes")
 
