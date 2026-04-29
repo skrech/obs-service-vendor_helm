@@ -1,73 +1,59 @@
-# suse.obs/vendor-helm
+# OBS Source Service `obs-service-vendor-helm`
 
-FIXME: my new application.
+## Overview
+
+A source service for [Open Build Service](https://openbuildservice.org/) (OBS) that vendors Helm charts. This tool simplifies the process of packaging Helm charts by:
+
+- Downloading third-party dependency sub-charts into the appropriate directory inside your main Helm chart;
+- Archives the main chart's contents according to a glob pattern. The archive is ready for consumption from OBS' build recipe for Helm charts.
+
+This service is expected to be used in combination with other OBS source services like [tar_scm](https://github.com/openSUSE/obs-service-tar_scm), [recompress](https://github.com/openSUSE/obs-service-recompress) and others.
 
 ## Installation
 
-Download from https://github.com/suse.obs/vendor-helm
+This service is available from the standard repository for OBS source services: [openSUSE:Tools](https://build.opensuse.org/project/show/openSUSE:Tools). It's also available in Tumbleweed.
+
+To install the service:
+
+```bash
+sudo zypper in obs-service-vendor_helm
+```
+
+[!WARNING]: This project is not yet available in the mentioned repositories since it's in the process of submission.
 
 ## Usage
 
-FIXME: explanation
+Example usage in your project's `_service` file when the repository is named `your-repo` and the chart that you are interested in is llocated at a subdirectory `charts/your-chart` (where the `Chart.yaml` file is):
 
-Run the project directly, via `:exec-fn`:
+```xml
+<services>
+  <service name="tar_scm" mode="manual">
+    <param name="url">https://your-domain.com/your-repo.git</param>
+    <param name="revision">@PARENT_TAG@</param>
+    <param name="version">_none_</param>
+    <param name="subdir">charts/your-chart</param>
+    <param name="extract">values.yaml</param>
+    <param name="extract">Chart.yaml</param>
+  </service>
+  <service name="vendor_helm" mode="manual">
+    <param name="subdir">your-repo/charts/your-chart</param>
+    <param name="include">{charts,templates}</param>
+  </service>
+  <service name="recompress" mode="manual">
+    <param name="file">*.tar</param>
+    <param name="compression">gz</param>
+  </service>
+</services>
+```
 
-    $ clojure -X:run-x
-    Hello, Clojure!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -X:run-x :name '"Someone"'
-    Hello, Someone!
-
-Run the project directly, via `:main-opts` (`-m suse.obs.vendor-helm`):
-
-    $ clojure -M:run-m
-    Hello, World!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -M:run-m Via-Main
-    Hello, Via-Main!
-
-Run the project's tests (they'll fail until you edit them):
-
-    $ clojure -T:build test
-
-Run the project's CI pipeline and build an uberjar (this will fail until you edit the tests to pass):
-
-    $ clojure -T:build ci
-
-This will produce an updated `pom.xml` file with synchronized dependencies inside the `META-INF`
-directory inside `target/classes` and the uberjar in `target`. You can update the version (and SCM tag)
-information in generated `pom.xml` by updating `build.clj`.
-
-If you don't want the `pom.xml` file in your project, you can remove it. The `ci` task will
-still generate a minimal `pom.xml` as part of the `uber` task, unless you remove `version`
-from `build.clj`.
-
-Run that uberjar:
-
-    $ java -jar target/suse.obs/vendor-helm-0.1.0-SNAPSHOT.jar
+This would produce a file named `contents.tar.gz` that contains the `charts` (with all third-party sub-charts downloaded) and `templates` directories.
 
 ## Options
 
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+For the available options check the [.service](vendor_helm.service) file.
 
 ## License
 
-Copyright © 2026 Skrech
+Copyright (c) 2026 Kristiyan Kanchev <kristiyan.kanchev@suse.com>
 
-Distributed under the [Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
+This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.

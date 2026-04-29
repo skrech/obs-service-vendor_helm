@@ -1,4 +1,6 @@
 #!/usr/bin/env bb
+;;; SPDX-FileCopyrightText: 2026 Kristiyan Kanchev <kristiyan.kanchev@suse.com>
+;;; SPDX-License-Identifier: GPL-2.0-or-later
 
 (ns suse.obs.vendor-helm
   (:require [babashka.cli :as cli]
