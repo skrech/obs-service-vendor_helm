@@ -1,4 +1,4 @@
-# OBS Source Service `obs-service-vendor-helm`
+# OBS Source Service `obs-service-vendor_helm`
 
 ## Overview
 
@@ -54,6 +54,6 @@ For the available options check the [.service](vendor_helm.service) file.
 
 ## License
 
-Copyright (c) 2026 Kristiyan Kanchev <kristiyan.kanchev@suse.com>
+Copyright (c) 2026 Kristiyan Kanchev
 
 This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
